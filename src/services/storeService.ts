@@ -584,10 +584,24 @@ class StoreService {
     const categories = this.getCategories();
     
     return products.map(product => {
+      // Safely check and resolve category slug, name, and id
+      const matchedCategory = categories.find(c => 
+        (product as any).categoryId === c.id || 
+        (product as any).category_id === c.id || 
+        product.categorySlug === c.slug ||
+        (product as any).category_slug === c.slug
+      );
+
+      if (matchedCategory) {
+        product.categorySlug = matchedCategory.slug;
+        product.categoryName = matchedCategory.name;
+        (product as any).categoryId = matchedCategory.id;
+        (product as any).category_id = matchedCategory.id;
+      }
+
       if (!product.thumbnail) {
-        const category = categories.find(c => c.slug === product.categorySlug);
-        if (category && category.image) {
-          product.thumbnail = category.image;
+        if (matchedCategory && matchedCategory.image) {
+          product.thumbnail = matchedCategory.image;
         } else {
           product.thumbnail = 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=80';
         }
