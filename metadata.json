@@ -1,0 +1,6 @@
+{
+  "name": "Studio Production",
+  "description": "Studio Production - Premium digital products marketplace for apps, websites, templates, graphics, videos, code, and e-books.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

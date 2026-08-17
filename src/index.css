@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+@theme {
+  --color-orange-50: var(--theme-primary-50, #fff7ed);
+  --color-orange-100: var(--theme-primary-100, #ffedd5);
+  --color-orange-200: var(--theme-primary-200, #fed7aa);
+  --color-orange-300: var(--theme-primary-300, #fdba74);
+  --color-orange-400: var(--theme-primary-400, #fb923c);
+  --color-orange-500: var(--theme-primary-500, #f97316);
+  --color-orange-600: var(--theme-primary-600, #ea580c);
+  --color-orange-700: var(--theme-primary-700, #c2410c);
+  --color-orange-800: var(--theme-primary-800, #9a3412);
+  --color-orange-900: var(--theme-primary-900, #7c2d12);
+  --color-orange-950: var(--theme-primary-950, #431407);
+
+  --color-brand-50: var(--theme-primary-50, #fff7ed);
+  --color-brand-100: var(--theme-primary-100, #ffedd5);
+  --color-brand-200: var(--theme-primary-200, #fed7aa);
+  --color-brand-300: var(--theme-primary-300, #fdba74);
+  --color-brand-400: var(--theme-primary-400, #fb923c);
+  --color-brand-500: var(--theme-primary-500, #f97316);
+  --color-brand-600: var(--theme-primary-600, #ea580c);
+  --color-brand-700: var(--theme-primary-700, #c2410c);
+  --color-brand-800: var(--theme-primary-800, #9a3412);
+  --color-brand-900: var(--theme-primary-900, #7c2d12);
+  --color-brand-950: var(--theme-primary-950, #431407);
+}
+
+:root {
+  --theme-primary: #ea580c;
+  --theme-primary-hover: #c2410c;
+  --theme-primary-active: #9a3412;
+  --theme-primary-rgb: 234, 88, 12;
+
+  --theme-primary-50: #fff7ed;
+  --theme-primary-100: #ffedd5;
+  --theme-primary-200: #fed7aa;
+  --theme-primary-300: #fdba74;
+  --theme-primary-400: #fb923c;
+  --theme-primary-500: #f97316;
+  --theme-primary-600: #ea580c;
+  --theme-primary-700: #c2410c;
+  --theme-primary-800: #9a3412;
+  --theme-primary-900: #7c2d12;
+  --theme-primary-950: #431407;
+}
+
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+  width: 100%;
+}
+
+/* 
+ * A very robust and simple global dark mode using CSS filters.
+ * Inverts the lightness but preserves hue.
+ * We exclude images, videos, svgs, and explicit light/dark classes from double inversion.
+ */
+html.dark {
+  filter: invert(1) hue-rotate(180deg);
+  background: #fff; /* When inverted, becomes black */
+}
+
+/* Re-invert media so they look normal */
+html.dark img,
+html.dark video,
+html.dark picture,
+html.dark iframe {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+/* Ensure background is white so it inverts to dark */
+body {
+  /* Default background handled by App.tsx */
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+

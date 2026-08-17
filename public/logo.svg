@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="blackTopRibbon" x1="20%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#4b5563" />
+      <stop offset="30%" stop-color="#1f242d" />
+      <stop offset="100%" stop-color="#11141a" />
+    </linearGradient>
+    <linearGradient id="blackMiddleBar" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#11141a" />
+      <stop offset="50%" stop-color="#282f3c" />
+      <stop offset="100%" stop-color="#11141a" />
+    </linearGradient>
+    <linearGradient id="blackTurnToOrange" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1f242d" />
+      <stop offset="60%" stop-color="#11141a" />
+      <stop offset="100%" stop-color="#451a03" />
+    </linearGradient>
+    <linearGradient id="orangeBasketFront" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff7a00" />
+      <stop offset="40%" stop-color="#f97316" />
+      <stop offset="100%" stop-color="#ea580c" />
+    </linearGradient>
+    <linearGradient id="orangeBasketInner" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fb923c" />
+      <stop offset="60%" stop-color="#ea580c" />
+      <stop offset="100%" stop-color="#9a3412" />
+    </linearGradient>
+    <filter id="softShadow" x="-15%" y="-15%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#softShadow)">
+    <!-- Top Arc of 'S' -->
+    <path d="M340 110 C320 110, 240 110, 195 155 C150 200, 140 270, 140 310 C140 330, 145 350, 155 370 C165 340, 185 305, 230 280 C275 255, 340 255, 360 235 C380 215, 375 160, 340 130 Z" fill="url(#blackTopRibbon)" />
+    
+    <!-- Top Main Arch Body -->
+    <path d="M190 150 C235 105, 315 105, 340 110 C310 110, 260 120, 225 150 C185 185, 175 240, 185 300 C155 260, 155 190, 190 150 Z" fill="#374151" opacity="0.6" />
+
+    <!-- Upper loop solid structure -->
+    <path d="M195 155 C240 110, 320 110, 340 110 C340 110, 335 150, 310 150 C265 150, 215 180, 205 230 C200 255, 205 275, 215 295 C175 295, 140 260, 140 210 C140 170, 165 130, 195 155 Z" fill="url(#blackTopRibbon)" />
+    
+    <!-- Main Center Bar of S -->
+    <path d="M140 210 C140 160, 180 110, 260 110 C340 110, 365 160, 365 210 C365 250, 335 285, 280 285 C220 285, 180 285, 140 285 Z" fill="none" />
+    
+    <!-- 3D Ribbon body of S -->
+    <path d="M190 145 C230 110, 320 110, 340 110 L340 155 C310 155, 230 155, 200 195 C180 220, 180 250, 205 275 L310 275 C360 275, 365 330, 365 370 C365 385, 355 400, 340 405 C360 380, 360 330, 315 315 L200 315 C150 315, 140 250, 140 210 C140 175, 160 145, 190 145 Z" fill="url(#blackMiddleBar)" />
+
+    <!-- Smooth S Top to Middle 3D Fold -->
+    <path d="M340 110 C250 110, 140 150, 140 250 C140 330, 200 340, 280 340 L310 340 C350 340, 365 365, 365 390 C365 330, 330 300, 280 300 L220 300 C180 300, 180 250, 200 220 C220 190, 270 165, 340 165 Z" fill="url(#blackTopRibbon)" />
+
+    <!-- Orange Shopping Cart Basket (Bottom loop of S) -->
+    <!-- Cart Basket Interior Glow -->
+    <path d="M210 300 C270 300, 335 305, 365 355 C365 380, 345 425, 270 425 C210 425, 160 395, 144 345 C155 355, 180 365, 220 365 C280 365, 330 355, 335 330 C335 315, 315 300, 270 300 Z" fill="url(#orangeBasketInner)" />
+    
+    <!-- Cart Basket Outer Lip & Front Wing -->
+    <path d="M144 345 C160 410, 215 425, 285 425 C335 425, 365 395, 365 355 C365 320, 340 300, 300 300 C340 320, 345 360, 305 385 C265 405, 195 395, 158 355 L144 345 Z" fill="url(#orangeBasketFront)" />
+    
+    <!-- Cart Handle / Left Wing Tail -->
+    <path d="M144 345 L158 355 C175 390, 215 410, 275 410 C320 410, 345 385, 350 360 C330 380, 290 390, 240 390 C185 390, 155 365, 144 345 Z" fill="#ff7a00" />
+    
+    <!-- Right side black to orange transition curve -->
+    <path d="M300 275 C345 275, 365 310, 365 355 C365 375, 355 395, 340 405 C355 385, 355 350, 335 330 C315 310, 275 300, 220 300 L250 275 Z" fill="url(#blackTurnToOrange)" />
+
+    <!-- Wheels of the Cart -->
+    <ellipse cx="205" cy="455" rx="14" ry="14" fill="#181a1f" />
+    <ellipse cx="205" cy="453" rx="8" ry="8" fill="#2d323b" opacity="0.7" />
+    <ellipse cx="285" cy="455" rx="14" ry="14" fill="#181a1f" />
+    <ellipse cx="285" cy="453" rx="8" ry="8" fill="#2d323b" opacity="0.7" />
+  </g>
+</svg>

@@ -1,0 +1,96 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 1. Master Gate Patterns
+    function isSignedIn() { return request.auth != null; }
+    function isOwner(userId) { return isSignedIn() && request.auth.uid == userId; }
+    function getUserData() { return get(/databases/$(database)/documents/users/$(request.auth.uid)).data; }
+    function isAdmin() { return isSignedIn() && getUserData().role in ['super_admin', 'admin']; }
+    function isValidId(id) { return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); }
+    function incoming() { return request.resource.data; }
+    function existing() { return resource.data; }
+
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // --- USERS ---
+    match /users/{userId} {
+      function isValidUser(data) {
+        return data.keys().hasAll(['id', 'email', 'name', 'role', 'status']) &&
+               data.id == userId &&
+               data.email is string &&
+               data.name is string &&
+               data.role in ['super_admin', 'admin', 'moderator', 'editor', 'customer'] &&
+               data.status in ['active', 'disabled'];
+      }
+
+      allow get: if isOwner(userId) || isAdmin();
+      allow list: if isAdmin();
+      allow create: if isOwner(userId) && isValidUser(incoming()) && incoming().role == 'customer';
+      allow update: if (isOwner(userId) || isAdmin()) && isValidUser(incoming()) && (
+        // Action: Update profile
+        (isOwner(userId) && !isAdmin() && incoming().diff(existing()).affectedKeys().hasOnly(['name', 'avatar'])) ||
+        // Action: Admin management
+        (isAdmin() && incoming().diff(existing()).affectedKeys().hasAny(['role', 'status', 'permissions']))
+      );
+    }
+
+    // --- CATEGORIES ---
+    match /categories/{categoryId} {
+      function isValidCategory(data) {
+        return data.keys().hasAll(['id', 'name', 'slug', 'enabled', 'order']) &&
+               data.id == categoryId &&
+               data.name is string && data.name.size() <= 100 &&
+               data.slug is string && data.slug.size() <= 100;
+      }
+      allow read: if true;
+      allow write: if isAdmin() && isValidCategory(incoming());
+    }
+
+    // --- PRODUCTS ---
+    match /products/{productId} {
+      function isValidProduct(data) {
+        return data.keys().hasAll(['id', 'name', 'slug', 'price', 'published']) &&
+               data.id == productId &&
+               data.price is number && data.price >= 0;
+      }
+      allow read: if true;
+      allow write: if isAdmin() && isValidProduct(incoming());
+    }
+
+    // --- ORDERS ---
+    match /orders/{orderId} {
+      function isValidOrder(data) {
+        return data.keys().hasAll(['id', 'orderNumber', 'userId', 'customerEmail', 'total', 'orderStatus']) &&
+               data.id == orderId &&
+               data.userId is string &&
+               data.total is number;
+      }
+      allow get: if isSignedIn() && (isOwner(existing().userId) || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isSignedIn() && isOwner(incoming().userId) && isValidOrder(incoming());
+      allow update: if isAdmin() && isValidOrder(incoming());
+    }
+
+    // --- REVIEWS ---
+    match /reviews/{reviewId} {
+      function isValidReview(data) {
+        return data.keys().hasAll(['id', 'productId', 'userId', 'rating', 'comment', 'status']) &&
+               data.id == reviewId &&
+               data.rating is number && data.rating >= 1 && data.rating <= 5;
+      }
+      allow read: if true;
+      allow create: if isSignedIn() && isOwner(incoming().userId) && isValidReview(incoming());
+      allow update: if (isOwner(existing().userId) || isAdmin()) && isValidReview(incoming());
+      allow delete: if (isOwner(existing().userId) || isAdmin());
+    }
+
+    // --- SETTINGS ---
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+  }
+}

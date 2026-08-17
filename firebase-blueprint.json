@@ -1,0 +1,91 @@
+{
+  "entities": {
+    "Category": {
+      "title": "Category",
+      "description": "A product category",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "name": { "type": "string", "maxLength": 100 },
+        "slug": { "type": "string", "pattern": "^[a-z0-9_\\-]+$" },
+        "description": { "type": "string", "maxLength": 500 },
+        "image": { "type": "string" },
+        "enabled": { "type": "boolean" },
+        "order": { "type": "number" }
+      },
+      "required": ["id", "name", "slug", "enabled", "order"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "A digital product",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "name": { "type": "string", "maxLength": 200 },
+        "slug": { "type": "string", "pattern": "^[a-z0-9_\\-]+$" },
+        "shortDescription": { "type": "string", "maxLength": 500 },
+        "description": { "type": "string", "maxLength": 5000 },
+        "categorySlug": { "type": "string" },
+        "categoryName": { "type": "string" },
+        "productType": { "type": "string" },
+        "price": { "type": "number" },
+        "originalPrice": { "type": "number" },
+        "published": { "type": "boolean" },
+        "thumbnail": { "type": "string" }
+      },
+      "required": ["id", "name", "slug", "price", "published"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "A customer order",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "orderNumber": { "type": "string" },
+        "userId": { "type": "string" },
+        "customerName": { "type": "string" },
+        "customerEmail": { "type": "string" },
+        "total": { "type": "number" },
+        "orderStatus": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "orderNumber", "userId", "customerEmail", "total", "orderStatus"]
+    },
+    "Review": {
+      "title": "Review",
+      "description": "A product review",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "productId": { "type": "string" },
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "rating": { "type": "number" },
+        "comment": { "type": "string", "maxLength": 1000 },
+        "status": { "type": "string", "enum": ["approved", "pending", "hidden"] }
+      },
+      "required": ["id", "productId", "userId", "rating", "comment", "status"]
+    },
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile data",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "email": { "type": "string" },
+        "name": { "type": "string" },
+        "role": { "type": "string", "enum": ["super_admin", "admin", "moderator", "editor", "customer"] },
+        "status": { "type": "string", "enum": ["active", "disabled"] }
+      },
+      "required": ["id", "email", "name", "role", "status"]
+    }
+  },
+  "firestore": {
+    "categories": { "schema": "Category", "description": "Product categories" },
+    "products": { "schema": "Product", "description": "Digital products" },
+    "orders": { "schema": "Order", "description": "Customer orders" },
+    "reviews": { "schema": "Review", "description": "Product reviews" },
+    "users": { "schema": "UserProfile", "description": "User profiles" },
+    "settings": { "schema": { "type": "object" }, "description": "Site settings" }
+  }
+}
