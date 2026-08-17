@@ -88,8 +88,10 @@ export const ShopPage: React.FC<ShopPageProps> = ({
       // Category filter
       if (selectedCategory === 'deals') {
         if (product.discountPercent === 0) return false;
-      } else if (selectedCategory !== 'all' && product.categorySlug !== selectedCategory) {
-        return false;
+      } else if (selectedCategory !== 'all') {
+        const matchesCategory = product.categorySlug === selectedCategory || 
+          (selectedCategory === 'websites' && (product.productType === 'Website' || product.productType === 'App'));
+        if (!matchesCategory) return false;
       }
 
       // Search query
@@ -234,17 +236,21 @@ export const ShopPage: React.FC<ShopPageProps> = ({
                   <span className="text-[10px] opacity-80">{allProducts.length}</span>
                 </button>
 
-                {categories.map((cat) => (
-                  <button
-                    key={cat.id}
-                    onClick={() => setSelectedCategory(cat.slug)}
-                    className={`w-full text-left px-2.5 py-1.5 rounded-lg flex items-center justify-between font-medium ${
-                      selectedCategory === cat.slug ? 'bg-orange-600 text-white' : 'text-orange-700 hover:bg-orange-50'
-                    }`}
-                  >
-                    <span className="truncate">{cat.name}</span>
-                  </button>
-                ))}
+                {categories.map((cat) => {
+                  const catCount = allProducts.filter(p => p.categorySlug === cat.slug || (cat.slug === 'websites' && (p.productType === 'Website' || p.productType === 'App'))).length;
+                  return (
+                    <button
+                      key={cat.id}
+                      onClick={() => setSelectedCategory(cat.slug)}
+                      className={`w-full text-left px-2.5 py-1.5 rounded-lg flex items-center justify-between font-medium ${
+                        selectedCategory === cat.slug ? 'bg-orange-600 text-white' : 'text-orange-700 hover:bg-orange-50'
+                      }`}
+                    >
+                      <span className="truncate">{cat.name}</span>
+                      <span className="text-[10px] opacity-80">{catCount}</span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
