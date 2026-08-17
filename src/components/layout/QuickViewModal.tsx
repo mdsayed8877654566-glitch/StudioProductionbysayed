@@ -4,6 +4,7 @@ import { Product } from '../../types';
 import { useCart } from '../../contexts/CartContext';
 import { useWishlist } from '../../contexts/WishlistContext';
 import { useSettings } from '../../contexts/SettingsContext';
+import { getDirectDownloadUrl } from '../../utils/themeUtils';
 
 interface QuickViewModalProps {
   product: Product | null;
@@ -149,7 +150,8 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
                   <button
                     onClick={() => {
                       if (product.downloadFileUrl) {
-                        window.open(product.downloadFileUrl, '_blank');
+                        const directUrl = getDirectDownloadUrl(product.downloadFileUrl);
+                        window.open(directUrl, '_blank');
                       } else {
                         alert('Download link not available.');
                       }

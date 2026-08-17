@@ -41,6 +41,7 @@ import { imageStorage } from '../services/imageStorage';
 import { uploadFile } from '../utils/uploadUtils';
 import { Product } from '../types';
 import { OrderStatusTracker } from '../components/common/OrderStatusTracker';
+import { getDirectDownloadUrl } from '../utils/themeUtils';
 
 interface CustomerDashboardPageProps {
   initialTab?: string;
@@ -496,7 +497,7 @@ export const CustomerDashboardPage: React.FC<CustomerDashboardPageProps> = ({
                     </div>
 
                     <a
-                      href={dl.downloadUrl}
+                      href={getDirectDownloadUrl(dl.downloadUrl)}
                       download
                       target="_blank"
                       rel="noreferrer"
@@ -753,7 +754,7 @@ export const CustomerDashboardPage: React.FC<CustomerDashboardPageProps> = ({
                       <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500" /> Write Review
                     </button>
                     <a
-                      href={dl.downloadUrl}
+                      href={getDirectDownloadUrl(dl.downloadUrl)}
                       download
                       target="_blank"
                       rel="noreferrer"

@@ -438,3 +438,29 @@ export async function extractProminentColorFromImageUrl(imageUrl: string): Promi
     }
   });
 }
+
+/**
+ * Converts a standard Google Drive sharing link into a direct, forced download link.
+ * Works for both standard sharing URLs and query parameter URLs.
+ */
+export function getDirectDownloadUrl(url: string): string {
+  if (!url) return '';
+  const trimmed = url.trim();
+  
+  if (trimmed.includes('drive.google.com')) {
+    // 1. Standard viewer format: https://drive.google.com/file/d/FILE_ID/view?usp=sharing
+    const fileIdMatch = trimmed.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+    if (fileIdMatch && fileIdMatch[1]) {
+      return `https://drive.google.com/uc?export=download&id=${fileIdMatch[1]}`;
+    }
+    
+    // 2. Query open/uc format: https://drive.google.com/open?id=FILE_ID
+    const idMatch = trimmed.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+    if (idMatch && idMatch[1]) {
+      return `https://drive.google.com/uc?export=download&id=${idMatch[1]}`;
+    }
+  }
+  
+  return trimmed;
+}
+

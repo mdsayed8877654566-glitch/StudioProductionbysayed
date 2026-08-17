@@ -34,6 +34,7 @@ import { storeService } from '../services/storeService';
 import { ProductCard } from '../components/common/ProductCard';
 import { CustomerReviews } from '../components/common/CustomerReviews';
 import { ProductDetailsSkeleton } from '../components/common/ProductDetailsSkeleton';
+import { getDirectDownloadUrl } from '../utils/themeUtils';
 
 interface ProductDetailsPageProps {
   product: Product;
@@ -99,7 +100,8 @@ export const ProductDetailsPage: React.FC<ProductDetailsPageProps> = ({
   const handleBuyNow = () => {
     if (displayProduct.price === 0) {
       if (displayProduct.downloadFileUrl) {
-        window.open(displayProduct.downloadFileUrl, '_blank');
+        const directUrl = getDirectDownloadUrl(displayProduct.downloadFileUrl);
+        window.open(directUrl, '_blank');
       } else {
         alert('Download link not available.');
       }

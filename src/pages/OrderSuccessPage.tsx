@@ -4,6 +4,7 @@ import { Order } from '../types';
 import { useSettings } from '../contexts/SettingsContext';
 import { useAuth } from '../contexts/AuthContext';
 import { storeService } from '../services/storeService';
+import { getDirectDownloadUrl } from '../utils/themeUtils';
 
 interface OrderSuccessPageProps {
   order: Order | null;
@@ -116,6 +117,27 @@ const PostPurchaseReviewItem: React.FC<{
 export const OrderSuccessPage: React.FC<OrderSuccessPageProps> = ({ order, setActiveTab }) => {
   const { settings } = useSettings();
 
+  // Automatically trigger downloads for completed / free items on mount
+  React.useEffect(() => {
+    if (order && order.orderStatus === 'Completed') {
+      order.items.forEach((item, idx) => {
+        if (item.downloadUrl && item.downloadUrl !== '#') {
+          const directUrl = getDirectDownloadUrl(item.downloadUrl);
+          // Safe download trigger using dynamic anchor element
+          setTimeout(() => {
+            const link = document.createElement('a');
+            link.href = directUrl;
+            link.setAttribute('download', '');
+            link.target = '_blank';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          }, idx * 600); // Stagger downloads slightly to prevent browser popup block
+        }
+      });
+    }
+  }, [order]);
+
   if (!order) {
     return (
       <div className="max-w-xl mx-auto px-4 py-20 text-center space-y-4">
@@ -177,7 +199,7 @@ export const OrderSuccessPage: React.FC<OrderSuccessPageProps> = ({ order, setAc
                 </div>
 
                 <a
-                  href={item.downloadUrl || '#'}
+                  href={getDirectDownloadUrl(item.downloadUrl || '') || '#'}
                   download
                   target="_blank"
                   rel="noreferrer"

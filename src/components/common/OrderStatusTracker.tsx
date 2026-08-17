@@ -28,6 +28,7 @@ import { Order, Product } from '../../types';
 import { storeService } from '../../services/storeService';
 import { useSettings } from '../../contexts/SettingsContext';
 import { uploadPaymentProof, upsertOrderInSupabase } from '../../lib/supabase';
+import { getDirectDownloadUrl } from '../../utils/themeUtils';
 
 interface OrderStatusTrackerProps {
   initialOrderId?: string;
@@ -599,7 +600,7 @@ export const OrderStatusTracker: React.FC<OrderStatusTrackerProps> = ({
                             </button>
                           )}
                           <a
-                            href={item.downloadUrl || '#'}
+                            href={getDirectDownloadUrl(item.downloadUrl || '') || '#'}
                             download
                             target="_blank"
                             rel="noreferrer"

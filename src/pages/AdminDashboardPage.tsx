@@ -2355,7 +2355,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ setActiv
                     <label className="font-bold text-zinc-900">Website Theme Accent Color</label>
                   </div>
                   <span className="text-[11px] font-bold text-orange-600">
-                    {isSuperAdmin ? 'Super Admin Controlled' : 'Super Admin Only'}
+                    {isAdmin ? 'Admin Controlled' : 'Admin Only'}
                   </span>
                 </div>
                 <p className="text-[11px] text-zinc-600">
@@ -2367,7 +2367,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ setActiv
                   <div className="flex items-center gap-2 bg-white border border-zinc-200 p-1.5 rounded-xl shadow-xs">
                     <input
                       type="color"
-                      disabled={!isSuperAdmin}
+                      disabled={!isAdmin}
                       value={cmsForm.primaryColor || '#ea580c'}
                       onChange={(e) => {
                         const newHex = e.target.value;
@@ -2384,7 +2384,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ setActiv
                     <span className="text-xs font-bold text-zinc-400">#</span>
                     <input
                       type="text"
-                      disabled={!isSuperAdmin}
+                      disabled={!isAdmin}
                       maxLength={7}
                       value={(cmsForm.primaryColor || '#ea580c').replace('#', '')}
                       onChange={(e) => {
@@ -2404,7 +2404,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ setActiv
                   {cmsForm.logoUrl && (
                     <button
                       type="button"
-                      disabled={!isSuperAdmin}
+                      disabled={!isAdmin}
                       onClick={async () => {
                         if (!cmsForm.logoUrl) return;
                         const extracted = await extractProminentColorFromImageUrl(cmsForm.logoUrl);
@@ -2431,7 +2431,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ setActiv
                         <button
                           key={p.id}
                           type="button"
-                          disabled={!isSuperAdmin}
+                          disabled={!isAdmin}
                           onClick={() => {
                             setCmsForm({ ...cmsForm, primaryColor: p.hex, themePreset: p.id });
                             applyThemeColor(p.hex);
@@ -2440,7 +2440,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ setActiv
                             isActive
                               ? 'bg-orange-50 border-orange-500 text-orange-950 ring-1 ring-orange-500'
                               : 'bg-white border-zinc-200 text-zinc-700 hover:bg-zinc-50'
-                          } ${!isSuperAdmin ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'}`}
+                          } ${!isAdmin ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'}`}
                         >
                           <span className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: p.hex }}></span>
                           <span>{p.name}</span>
@@ -3391,19 +3391,19 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ setActiv
             <form onSubmit={handleSaveProduct} className="space-y-4 text-xs">
               <div>
                 <label className="font-bold text-zinc-800 block mb-1">Asset Name</label>
-                <input required type="text" value={pName} onChange={e => setPName(e.target.value)} disabled={!isSuperAdmin} className="w-full p-2.5 border rounded-xl font-medium disabled:bg-zinc-100 disabled:text-orange-600" />
+                <input required type="text" value={pName} onChange={e => setPName(e.target.value)} disabled={!isAdmin} className="w-full p-2.5 border rounded-xl font-medium disabled:bg-zinc-100 disabled:text-orange-600" />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="font-bold text-zinc-800 block mb-1">Category</label>
-                  <select value={pCategorySlug} onChange={e => setPCategorySlug(e.target.value as any)} disabled={!isSuperAdmin} className="w-full p-2.5 border rounded-xl font-medium disabled:bg-zinc-100 disabled:text-orange-600">
+                  <select value={pCategorySlug} onChange={e => setPCategorySlug(e.target.value as any)} disabled={!isAdmin} className="w-full p-2.5 border rounded-xl font-medium disabled:bg-zinc-100 disabled:text-orange-600">
                     {categories.map(c => <option key={c.slug} value={c.slug}>{c.name}</option>)}
                   </select>
                 </div>
                 <div>
                   <label className="font-bold text-zinc-800 block mb-1">Product Type</label>
-                  <select value={pType} onChange={e => setPType(e.target.value as any)} disabled={!isSuperAdmin} className="w-full p-2.5 border rounded-xl font-medium disabled:bg-zinc-100 disabled:text-orange-600">
+                  <select value={pType} onChange={e => setPType(e.target.value as any)} disabled={!isAdmin} className="w-full p-2.5 border rounded-xl font-medium disabled:bg-zinc-100 disabled:text-orange-600">
                     <option value="Website">Website</option>
                     <option value="App">App</option>
                     <option value="Template">Template</option>
@@ -3422,7 +3422,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ setActiv
                   <input
                     type="checkbox"
                     checked={pIsFree}
-                    disabled={!isSuperAdmin}
+                    disabled={!isAdmin}
                     onChange={(e) => {
                       setPIsFree(e.target.checked);
                       if (e.target.checked) setPPrice(0);
@@ -3460,19 +3460,19 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ setActiv
               <div className="grid grid-cols-3 gap-4">
                 <div>
                   <label className="font-bold text-zinc-800 block mb-1">Sales Count</label>
-                  <input type="number" value={pSalesCount} onChange={e => setPSalesCount(Number(e.target.value))} disabled={!isSuperAdmin} className="w-full p-2.5 border rounded-xl font-medium disabled:bg-zinc-100 disabled:text-orange-600" />
+                  <input type="number" value={pSalesCount} onChange={e => setPSalesCount(Number(e.target.value))} disabled={!isAdmin} className="w-full p-2.5 border rounded-xl font-medium disabled:bg-zinc-100 disabled:text-orange-600" />
                 </div>
                 <div>
                   <label className="font-bold text-zinc-800 block mb-1">Stock Qty</label>
-                  <input type="number" value={pStockQuantity} onChange={e => setPStockQuantity(Number(e.target.value))} disabled={!isSuperAdmin} className="w-full p-2.5 border rounded-xl font-medium disabled:bg-zinc-100 disabled:text-orange-600" />
+                  <input type="number" value={pStockQuantity} onChange={e => setPStockQuantity(Number(e.target.value))} disabled={!isAdmin} className="w-full p-2.5 border rounded-xl font-medium disabled:bg-zinc-100 disabled:text-orange-600" />
                 </div>
                 <div>
                   <label className="font-bold text-zinc-800 block mb-1" title="Alerts will trigger below this quantity">Low Stock Threshold</label>
-                  <input type="number" value={pLowStockThreshold} onChange={e => setPLowStockThreshold(Number(e.target.value))} disabled={!isSuperAdmin} className="w-full p-2.5 border rounded-xl font-medium disabled:bg-zinc-100 disabled:text-orange-600" />
+                  <input type="number" value={pLowStockThreshold} onChange={e => setPLowStockThreshold(Number(e.target.value))} disabled={!isAdmin} className="w-full p-2.5 border rounded-xl font-medium disabled:bg-zinc-100 disabled:text-orange-600" />
                 </div>
                 <div>
                   <label className="font-bold text-zinc-800 block mb-1">Rating</label>
-                  <input type="number" step="0.1" min="0" max="5" value={pRating} onChange={e => setPRating(Number(e.target.value))} disabled={!isSuperAdmin} className="w-full p-2.5 border rounded-xl font-medium disabled:bg-zinc-100 disabled:text-orange-600" />
+                  <input type="number" step="0.1" min="0" max="5" value={pRating} onChange={e => setPRating(Number(e.target.value))} disabled={!isAdmin} className="w-full p-2.5 border rounded-xl font-medium disabled:bg-zinc-100 disabled:text-orange-600" />
                 </div>
               </div>
 
@@ -3481,7 +3481,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ setActiv
                   label="Thumbnail Image"
                   value={pThumbnail}
                   onChange={setPThumbnail}
-                  disabled={!isSuperAdmin}
+                  disabled={!isAdmin}
                 />
               </div>
 
@@ -3490,7 +3490,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ setActiv
                 <select 
                   value={pInStock ? 'in_stock' : 'out_of_stock'} 
                   onChange={e => setPInStock(e.target.value === 'in_stock')}
-                  disabled={!isSuperAdmin}
+                  disabled={!isAdmin}
                   className="w-full p-2.5 border border-zinc-200 rounded-xl font-medium disabled:bg-zinc-100 disabled:text-orange-600"
                 >
                   <option value="in_stock">In Stock</option>
@@ -3503,7 +3503,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ setActiv
                   label="Gallery Image URLs (Comma Separated)"
                   value={pGalleryImages}
                   onChange={setPGalleryImages}
-                  disabled={!isSuperAdmin}
+                  disabled={!isAdmin}
                   placeholder="https://image1.jpg, https://image2.jpg"
                 />
               </div>
@@ -3511,22 +3511,22 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ setActiv
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="font-bold text-zinc-800 block mb-1">Demo Preview URL</label>
-                  <input type="text" value={pDemoUrl} onChange={e => setPDemoUrl(e.target.value)} disabled={!isSuperAdmin} placeholder="https://example.com/demo" className="w-full p-2.5 border border-zinc-200 rounded-xl font-medium disabled:bg-zinc-100 disabled:text-orange-600" />
+                  <input type="text" value={pDemoUrl} onChange={e => setPDemoUrl(e.target.value)} disabled={!isAdmin} placeholder="https://example.com/demo" className="w-full p-2.5 border border-zinc-200 rounded-xl font-medium disabled:bg-zinc-100 disabled:text-orange-600" />
                 </div>
                 <div>
                   <label className="font-bold text-zinc-800 block mb-1">Download Zip File URL</label>
-                  <input type="text" value={pDownloadUrl} onChange={e => setPDownloadUrl(e.target.value)} disabled={!isSuperAdmin} placeholder="https://storage.com/file.zip" className="w-full p-2.5 border border-zinc-200 rounded-xl font-medium disabled:bg-zinc-100 disabled:text-orange-600" />
+                  <input type="text" value={pDownloadUrl} onChange={e => setPDownloadUrl(e.target.value)} disabled={!isAdmin} placeholder="https://storage.com/file.zip" className="w-full p-2.5 border border-zinc-200 rounded-xl font-medium disabled:bg-zinc-100 disabled:text-orange-600" />
                 </div>
               </div>
 
               <div>
                 <label className="font-bold text-zinc-800 block mb-1">Short Summary</label>
-                <input required type="text" value={pShortDesc} onChange={e => setPShortDesc(e.target.value)} disabled={!isSuperAdmin} className="w-full p-2.5 border border-zinc-200 rounded-xl font-medium disabled:bg-zinc-100 disabled:text-orange-600" />
+                <input required type="text" value={pShortDesc} onChange={e => setPShortDesc(e.target.value)} disabled={!isAdmin} className="w-full p-2.5 border border-zinc-200 rounded-xl font-medium disabled:bg-zinc-100 disabled:text-orange-600" />
               </div>
 
               <div>
                 <label className="font-bold text-zinc-800 block mb-1">Detailed Description</label>
-                <textarea required rows={3} value={pDesc} onChange={e => setPDesc(e.target.value)} disabled={!isSuperAdmin} className="w-full p-2.5 border border-zinc-200 rounded-xl font-medium disabled:bg-zinc-100 disabled:text-orange-600" />
+                <textarea required rows={3} value={pDesc} onChange={e => setPDesc(e.target.value)} disabled={!isAdmin} className="w-full p-2.5 border border-zinc-200 rounded-xl font-medium disabled:bg-zinc-100 disabled:text-orange-600" />
               </div>
 
               <button type="submit" className="w-full py-3.5 bg-orange-600 hover:bg-zinc-800 text-white font-bold rounded-xl transition-all shadow-md">
